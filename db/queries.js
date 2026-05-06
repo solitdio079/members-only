@@ -5,6 +5,11 @@ async function findAllMembers(){
     return rows
 }
 
+async function createMember(full_name, username, pwd){
+    await pool.query(`INSERT INTO members (full_name, username, pwd) VALUES ($1,$2,$3)`, [full_name, username, pwd])
+
+}
+
 module.exports = {
-    findAllMembers
+    findAllMembers,createMember
 }
