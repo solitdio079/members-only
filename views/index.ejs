@@ -5,7 +5,14 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="/signup">Sign Up</a>
+   
+    <% if(user) { %>
+        <a href="/profile">Profile</a>
+        <a href="/join">Join the Club</a>
+    <% }else{  %>
+        <a href="/auth/signup">Sign Up</a>
+        <a href="/auth/login">Log In</a>
+     <%  } %>
     <h1>Here is the Home Page. Welcome everyone to my world!</h1>
 </body>
 </html>
