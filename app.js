@@ -3,6 +3,7 @@ const path = require("path")
 const session = require("express-session")
 const indexRouter = require("./routes/index")
 const authRouter = require("./routes/auth")
+const messageRouter = require("./routes/messages")
 const passport = require("passport")
 const pgPool = require("./db/pool")
 require("dotenv").config()
@@ -30,6 +31,7 @@ app.set("views", path.join(__dirname, "views"))
 
 app.use("/", indexRouter)
 app.use("/auth", authRouter)
+app.use("/message", messageRouter)
 
 
 

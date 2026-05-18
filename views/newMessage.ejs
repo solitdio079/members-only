@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post</title>
+     <link rel="stylesheet" href="/signup.css">
+</head>
+
+<body>
+    <form method="post" action="/message/new">
+          <% if(error) {  %>
+            <p class="error"> <%= error %> </p>
+        <%  }  %> 
+        <label>
+            Title
+            <input type="text" name="title" placeholder="Post Title">
+        </label>
+        <label>
+            Content
+            <textarea rows="5" name="content"></textarea>
+        </label>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

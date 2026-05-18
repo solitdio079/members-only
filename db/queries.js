@@ -26,6 +26,27 @@ async function createMember(full_name, username, pwd){
 
 }
 
+
+// POST QUERİES 
+
+async function createPost(title, content, created_at, member_id){
+    await pool.query(`INSERT INTO posts (title,content,created_at,member_id) VALUES ($1,$2,$3,$4)`, [title,content,created_at,member_id])
+}
+
+async function getPosts(){
+    const {rows} = await pool.query(`SELECT id,title,content FROM posts ORDER BY id DESC`)
+    return rows
+}
+
+async function getPostsForMembers(){
+    const {rows} = await pool.query(`SELECT posts.id,title,content,created_at,full_name FROM posts JOIN members ON members.id = posts.member_id`)
+    return rows
+}
+
+async function deletePost(id){
+    await pool.query(`DELETE FROM posts WHERE id=$1`,[id])
+}
 module.exports = {
-    findAllMembers,createMember,findById,findByUsername, updateMemberStatus
+    findAllMembers,createMember,findById,findByUsername, updateMemberStatus,
+    createPost,getPosts, getPostsForMembers, deletePost
 }
