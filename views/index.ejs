@@ -1,47 +1,62 @@
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-     <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/index.css">
 </head>
+
 <body>
-   
+
     <% if(user) { %>
         <a href="/profile">Profile</a>
-        <% if(user.status === "user"){ %> 
+        <a href="/message/new">Send new Message</a>
+        <form action="/auth/logout" method="post">
+            <button type="submit" class="deleteBtn">Logout</button>
+        </form>
+        <% if(user.status==="user" ){ %>
             <a href="/join">Join the Club</a>
-        <% }else if (user.status === "member") { %> 
-            <a href="/message/new">Send new Message</a>
-            <a href="/join">Become Admin</a>
-        <% } %>
-        
-    <% }else{  %>
-        <a href="/auth/signup">Sign Up</a>
-        <a href="/auth/login">Log In</a>
-     <%  } %>
-    <h1>Here is the Home Page. Welcome everyone to my world!</h1>
-
-    <div class="post-grid">
-        <% posts.forEach(post => {  %> 
-            <div class="post-card">
-                <span class="title"> <%= post.title %> </span>
-                <p class="content"> <%= post.content %> </p>
-                <% if(post.full_name){%> 
-                    <div class="footer">
-                        <span> <%= post.full_name %> </span>
-                        <span> <%= post.created_at %> </span>
-                        <% if(user.status === 'admin') { %> 
-                            <form action="/message/delete" method="post">
-                                <input name="id" type="hidden" value="<%= post.id %>">
-                                <button type="submit" class="deleteBtn">x</button>
-                            </form>
-                            
-                        <% } %>
-                    </div>
+            <% }else if (user.status==="member" ) { %>
+                <a href="/message/new">Send new Message</a>
+                <a href="/join">Become Admin</a>
                 <% } %>
-            </div>
-        <%}) %>
-    </div>
+
+                    <% }else{ %>
+                        <a href="/auth/signup">Sign Up</a>
+                        <a href="/auth/login">Log In</a>
+                        <% } %>
+                            <h1>Here is the Home Page. Welcome everyone to my world!</h1>
+
+                            <div class="post-grid">
+                                <% posts.forEach(post=> { %>
+                                    <div class="post-card">
+                                        <span class="title">
+                                            <%= post.title %>
+                                        </span>
+                                        <p class="content">
+                                            <%= post.content %>
+                                        </p>
+                                        <% if(post.full_name){%>
+                                            <div class="footer">
+                                                <span>
+                                                    <%= post.full_name %>
+                                                </span>
+                                                <span>
+                                                    <%= post.created_at %>
+                                                </span>
+                                                <% if(user.status==='admin' ) { %>
+                                                    <form action="/message/delete" method="post">
+                                                        <input name="id" type="hidden" value="<%= post.id %>">
+                                                        <button type="submit" class="deleteBtn">x</button>
+                                                    </form>
+
+                                                    <% } %>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                    <%}) %>
+                            </div>
 </body>
+
 </html>

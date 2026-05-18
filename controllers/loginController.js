@@ -7,6 +7,12 @@ const getLoginForm = (req, res) => {
     return res.render("login")
 }
 
+function logout (req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  })
+}
 module.exports = {
-    getLoginForm
+    getLoginForm,logout
 }

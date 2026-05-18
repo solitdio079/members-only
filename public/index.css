@@ -1,37 +1,181 @@
-.post-grid{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: .5rem;
+:root {
+    --bg: #f6f2ea;
+    --surface: #fffaf2;
+    --surface-strong: #ffffff;
+    --ink: #211d1a;
+    --muted: #746b61;
+    --line: #dfd3c3;
+    --accent: #0f766e;
+    --accent-dark: #0b5d57;
+    --danger: #b42318;
+    --danger-dark: #8a1c13;
+    --shadow: 0 18px 45px rgba(67, 48, 32, .12);
 }
 
-.post-card{
-    border: 1px solid #333;
-    border-radius: 15px;
-    padding: .75rem;
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem clamp(1rem, 4vw, 4rem) 4rem;
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, .16), transparent 34rem),
+        linear-gradient(135deg, #f8f1e7 0%, #eef4ef 48%, #f9f5ee 100%);
+}
+
+body > a,
+body > form {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.6rem;
+    margin: 0 .45rem .7rem 0;
+    vertical-align: top;
+}
+
+a {
+    color: var(--accent-dark);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body > a {
+    padding: .7rem 1rem;
+    border: 1px solid rgba(15, 118, 110, .18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .72);
+    box-shadow: 0 8px 22px rgba(67, 48, 32, .07);
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+body > a:hover,
+body > a:focus-visible {
+    transform: translateY(-1px);
+    background: var(--surface-strong);
+    box-shadow: 0 12px 28px rgba(67, 48, 32, .1);
+}
+
+body > form {
+    margin-bottom: 0;
+}
+
+h1 {
+    max-width: 760px;
+    margin: 3rem 0 2rem;
+    font-size: clamp(2.1rem, 6vw, 4.8rem);
+    line-height: .98;
+    letter-spacing: 0;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.post-card {
+    min-height: 230px;
+    border: 1px solid rgba(33, 29, 26, .08);
+    border-radius: 8px;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: rgba(255, 250, 242, .88);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+    transition: transform .18s ease, box-shadow .18s ease;
 }
 
-.post-card .title{
-    font-weight: bold;
-    font-size: 1.25rem;
-    padding: .25rem;
-    border-bottom: 1px solid black;
+.post-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 24px 55px rgba(67, 48, 32, .16);
 }
-.post-card .content{
+
+.post-card .title {
+    display: block;
+    font-weight: 800;
+    font-size: 1.2rem;
+    line-height: 1.25;
+    padding-bottom: .8rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.post-card .content {
+    flex: 1;
+    margin: 0;
+    padding: 1rem 0;
+    color: #3d362f;
     font-size: 1rem;
-    padding: .25rem;
-    border-bottom: 1px solid #ddd;
-}
-.post-card .footer {
-    display: flex; 
-    justify-content: space-between;
-    padding: .5rem;
+    line-height: 1.65;
+    border-bottom: 1px solid rgba(223, 211, 195, .8);
 }
 
-.deleteBtn{
-    background-color: red;
-    color: #eee;
-    border: none;
+.post-card .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    padding-top: .85rem;
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+.post-card .footer span:first-child {
+    color: var(--ink);
+    font-weight: 700;
+}
+
+button,
+.deleteBtn {
+    min-height: 2.5rem;
+    border: 0;
+    border-radius: 999px;
+    padding: .65rem 1rem;
+    color: #fff;
+    font-weight: 800;
+    cursor: pointer;
+    background: var(--danger);
+    box-shadow: 0 10px 24px rgba(180, 35, 24, .18);
+    transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+button:hover,
+button:focus-visible,
+.deleteBtn:hover,
+.deleteBtn:focus-visible {
+    transform: translateY(-1px);
+    background: var(--danger-dark);
+    box-shadow: 0 14px 30px rgba(180, 35, 24, .24);
+}
+
+.post-card .deleteBtn {
+    width: 2rem;
+    min-height: 2rem;
+    padding: 0;
+}
+
+@media (max-width: 640px) {
+    body {
+        padding-top: 1rem;
+    }
+
+    body > a,
+    body > form {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    body > a,
+    body > form button {
+        justify-content: center;
+        width: 100%;
+    }
+
+    h1 {
+        margin-top: 2rem;
+    }
 }

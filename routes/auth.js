@@ -12,4 +12,8 @@ router.post("/signup-password",signupController.createMember)
 router.get("/login",loginController.getLoginForm)
 
 router.post("/login",passport.authenticate('local', {successRedirect: "/", failureRedirect: "/auth/login"}))
+
+router.post('/logout', loginController.logout
+);
+
 module.exports = router
