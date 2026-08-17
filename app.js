@@ -17,6 +17,17 @@ if (!process.env.SECRET || process.env.SECRET.length < 32) {
     throw new Error("SECRET must be set to a random value of at least 32 characters")
 }
 
+for (const variable of ["PASSCODE", "ADMIN_PASSCODE"]) {
+    if (!process.env[variable]?.trim()) {
+        throw new Error(`${variable} must be set as a runtime environment variable`)
+    }
+}
+
+console.log("Passcode configuration loaded:", {
+    PASSCODE: { present: true, length: process.env.PASSCODE.trim().length },
+    ADMIN_PASSCODE: { present: true, length: process.env.ADMIN_PASSCODE.trim().length }
+})
+
 app.set("trust proxy", 1)
 
 app.get("/health", (_req, res) => {

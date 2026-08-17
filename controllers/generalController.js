@@ -8,31 +8,35 @@ function getPasscode(req,res,next) {
 
 async function createMember(req,res,next){
     res.locals.errors = null 
-    const {id} = req.user
+    const id = req.user?.id
     if(!id){
+        res.status(403)
         res.locals.errors = {
             type:403,
             message: "Please log in"
         }
         return res.render("passcode")
     }
-    const passcode = req.body.passcode
-    if(passcode !== process.env.PASSCODE && passcode !== process.env.ADMIN_PASSCODE){
+    const passcode = String(req.body.passcode || "").trim()
+    const memberPasscode = process.env.PASSCODE.trim()
+    const adminPasscode = process.env.ADMIN_PASSCODE.trim()
+
+    if(passcode !== memberPasscode && passcode !== adminPasscode){
+        res.status(400)
         res.locals.errors = {
-            type:404,
+            type:400,
             message: "Invalid passcode"
         }
         return res.render("passcode")
     }
-    else{
-        if(passcode === process.env.ADMIN_PASSCODE){
-             await db.updateMemberStatus("admin",id)
-        }
-        if(passcode === process.env.PASSCODE){
-             await db.updateMemberStatus("member",id)
-        }
-        return res.redirect("/")
+
+    if(passcode === adminPasscode){
+        await db.updateMemberStatus("admin",id)
+    } else {
+        await db.updateMemberStatus("member",id)
     }
+
+    return res.redirect("/")
 }
 
 
