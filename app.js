@@ -6,6 +6,7 @@ const authRouter = require("./routes/auth")
 const messageRouter = require("./routes/messages")
 const passport = require("passport")
 const pgPool = require("./db/pool")
+const { getConfiguredPasscodes } = require("./utils/passcodes")
 require("dotenv").config()
 
 const app = express()
@@ -17,15 +18,18 @@ if (!process.env.SECRET || process.env.SECRET.length < 32) {
     throw new Error("SECRET must be set to a random value of at least 32 characters")
 }
 
-for (const variable of ["PASSCODE", "ADMIN_PASSCODE"]) {
-    if (!process.env[variable]?.trim()) {
-        throw new Error(`${variable} must be set as a runtime environment variable`)
-    }
+const { memberPasscode, adminPasscode } = getConfiguredPasscodes()
+
+if (!memberPasscode) {
+    throw new Error("PASSCODE must be set as a runtime environment variable")
+}
+if (!adminPasscode) {
+    throw new Error("ADMIN_PASSCODE must be set as a runtime environment variable")
 }
 
 console.log("Passcode configuration loaded:", {
-    PASSCODE: { present: true, length: process.env.PASSCODE.trim().length },
-    ADMIN_PASSCODE: { present: true, length: process.env.ADMIN_PASSCODE.trim().length }
+    PASSCODE: { present: true, normalizedLength: memberPasscode.length },
+    ADMIN_PASSCODE: { present: true, normalizedLength: adminPasscode.length }
 })
 
 app.set("trust proxy", 1)

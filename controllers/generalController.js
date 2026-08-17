@@ -1,4 +1,5 @@
 const db = require("../db/queries")
+const { normalizePasscode, getConfiguredPasscodes } = require("../utils/passcodes")
 
 require("dotenv").config()
 function getPasscode(req,res,next) {
@@ -17,11 +18,15 @@ async function createMember(req,res,next){
         }
         return res.render("passcode")
     }
-    const passcode = String(req.body.passcode || "").trim()
-    const memberPasscode = process.env.PASSCODE.trim()
-    const adminPasscode = process.env.ADMIN_PASSCODE.trim()
+    const passcode = normalizePasscode(req.body.passcode)
+    const { memberPasscode, adminPasscode } = getConfiguredPasscodes()
 
     if(passcode !== memberPasscode && passcode !== adminPasscode){
+        console.warn("Passcode rejected:", {
+            submittedLength: passcode.length,
+            memberPasscodeLength: memberPasscode.length,
+            adminPasscodeLength: adminPasscode.length
+        })
         res.status(400)
         res.locals.errors = {
             type:400,
