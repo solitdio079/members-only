@@ -125,3 +125,34 @@ a:focus-visible {
     font-weight: 700;
     background: rgba(180, 35, 24, .08);
 }
+
+.error-summary {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    border: 1px solid rgba(180, 35, 24, .25);
+    border-radius: 8px;
+    padding: .85rem 1rem;
+    color: var(--danger);
+    font-size: .92rem;
+    background: rgba(180, 35, 24, .08);
+}
+
+.field-help {
+    color: var(--muted);
+    font-size: .8rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.field-error {
+    color: var(--danger);
+    font-size: .82rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+input[aria-invalid="true"] {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(180, 35, 24, .1);
+}

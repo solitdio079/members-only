@@ -3,28 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create an account | Members Only</title>
     <link rel="stylesheet" href="/signup.css">
 </head>
 <body>
 
-    <form action="/auth/signup-password" method="post">
+    <form action="/auth/signup-password" method="post" novalidate>
         <h2>Create an Account</h2>
+
+        <% if (Object.keys(errors).length > 0) { %>
+            <div class="error-summary" role="alert" aria-live="polite">
+                <strong>We couldn't create your account.</strong>
+                <span>Check the highlighted fields and try again.</span>
+            </div>
+        <% } %>
+
         <label>
             Full Name 
-            <input type="text" name="full_name" placeholder="John Doe">
+            <input type="text" name="full_name" placeholder="John Doe" value="<%= values.full_name || '' %>" autocomplete="name" aria-invalid="<%= errors.full_name ? 'true' : 'false' %>" <%- errors.full_name ? 'aria-describedby="full-name-error"' : '' %>>
+            <% if (errors.full_name) { %><span class="field-error" id="full-name-error"><%= errors.full_name %></span><% } %>
         </label>
         <label>
             User Name 
-            <input type="text" name="username" placeholder="solitdio">
+            <input type="text" name="username" placeholder="solitdio" value="<%= values.username || '' %>" autocomplete="username" aria-invalid="<%= errors.username ? 'true' : 'false' %>" <%- errors.username ? 'aria-describedby="username-error"' : '' %>>
+            <% if (errors.username) { %><span class="field-error" id="username-error"><%= errors.username %></span><% } %>
         </label>
         <label>
             Password
-            <input type="password" name="pwd">
+            <input type="password" name="pwd" autocomplete="new-password" aria-invalid="<%= errors.pwd ? 'true' : 'false' %>" aria-describedby="password-help<%= errors.pwd ? ' password-error' : '' %>">
+            <span class="field-help" id="password-help">At least 8 characters with uppercase, lowercase, a number, and a symbol.</span>
+            <% if (errors.pwd) { %><span class="field-error" id="password-error"><%= errors.pwd %></span><% } %>
         </label>
         <label>
             Confirm Password
-            <input type="password" name="confirmPwd">
+            <input type="password" name="confirmPwd" autocomplete="new-password" aria-invalid="<%= errors.confirmPwd ? 'true' : 'false' %>" <%- errors.confirmPwd ? 'aria-describedby="confirm-password-error"' : '' %>>
+            <% if (errors.confirmPwd) { %><span class="field-error" id="confirm-password-error"><%= errors.confirmPwd %></span><% } %>
         </label>
 
         <button type="submit">Submit</button>
