@@ -2,6 +2,6 @@
 set -eu
 
 echo "Preparing database schema..."
-npm run db:init
+node db/init.js
 
 exec "$@"

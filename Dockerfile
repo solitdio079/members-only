@@ -14,6 +14,7 @@ ENV NODE_ENV=production \
 WORKDIR /app
 
 COPY --from=dependencies /app/node_modules ./node_modules
+COPY package.json package-lock.json ./
 COPY app.js ./
 COPY controllers ./controllers
 COPY db ./db
