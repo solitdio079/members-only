@@ -28,7 +28,7 @@ async function createMember(req,res,next){
         if(passcode === process.env.ADMIN_PASSCODE){
              await db.updateMemberStatus("admin",id)
         }
-        if(passcode === process.env.SECRET){
+        if(passcode === process.env.PASSCODE){
              await db.updateMemberStatus("member",id)
         }
         return res.redirect("/")

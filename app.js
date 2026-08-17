@@ -10,17 +10,36 @@ require("dotenv").config()
 
 const app = express()
 
+const PORT = Number(process.env.PORT) || 3000
+const HOST = process.env.HOST || "0.0.0.0"
+
+if (!process.env.SECRET || process.env.SECRET.length < 32) {
+    throw new Error("SECRET must be set to a random value of at least 32 characters")
+}
+
+app.set("trust proxy", 1)
+
+app.get("/health", (_req, res) => {
+    res.status(200).json({ status: "ok" })
+})
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, "public")))
 
 app.use(session({
-    secret: process.env.SECRET || "keyboard cat",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production"
+    },
     store: new (require("connect-pg-simple")(session))({
        pool : pgPool,                // Connection pool
-       tableName : 'members_session'  
+       tableName : 'members_session',
+       createTableIfMissing: true
     })
 }))
 
@@ -42,7 +61,6 @@ app.use((err, req, res, next) => {
 
 })
 
-const PORT = process.env.PORT
-app.listen(PORT, () => {
-    console.log(`server listening on port: ${PORT}`)
+app.listen(PORT, HOST, () => {
+    console.log(`server listening on ${HOST}:${PORT}`)
 })
